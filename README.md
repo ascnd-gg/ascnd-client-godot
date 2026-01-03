@@ -73,7 +73,7 @@ public partial class GameManager : Node
         _ascnd.GetLeaderboard("my-leaderboard", limit: 10);
     }
 
-    private void OnScoreSubmitted(string scoreId, long rank, bool isNewBest)
+    private void OnScoreSubmitted(string scoreId, int rank, bool isNewBest)
     {
         GD.Print($"Score submitted! Rank: #{rank}, New best: {isNewBest}");
     }
@@ -89,9 +89,9 @@ public partial class GameManager : Node
         }
     }
 
-    private void OnPlayerRankReceived(long rank, long score, float percentile)
+    private void OnPlayerRankReceived(int rank, long score, string percentile)
     {
-        GD.Print($"Your rank: #{rank} (top {percentile:F1}%)");
+        GD.Print($"Your rank: #{rank} ({percentile})");
     }
 
     private void OnRequestFailed(string operation, string error)
@@ -166,7 +166,7 @@ _ascnd.Reinitialize();
 
 ### Signals
 
-#### ScoreSubmitted(scoreId: string, rank: long, isNewBest: bool)
+#### ScoreSubmitted(scoreId: string, rank: int, isNewBest: bool)
 
 Emitted when a score is successfully submitted.
 
@@ -179,7 +179,7 @@ Emitted when leaderboard data is received. Each entry in the array is a Dictiona
 - `submittedAt` (string, ISO 8601 format)
 - `bracket` (Dictionary, optional) - Contains `id`, `name`, `color`
 
-#### PlayerRankReceived(rank: long, score: long, percentile: float)
+#### PlayerRankReceived(rank: int, score: long, percentile: string)
 
 Emitted when a player's rank is received.
 

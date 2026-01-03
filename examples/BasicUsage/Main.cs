@@ -41,7 +41,7 @@ public partial class Main : Control
         _ascnd.GetLeaderboard("demo-leaderboard", limit: 5);
     }
 
-    private void OnScoreSubmitted(string scoreId, long rank, bool isNewBest)
+    private void OnScoreSubmitted(string scoreId, int rank, bool isNewBest)
     {
         var bestText = isNewBest ? " (New personal best!)" : "";
         _resultLabel.Text = $"Score submitted!\nRank: #{rank}{bestText}\nScore ID: {scoreId}";
@@ -67,9 +67,9 @@ public partial class Main : Control
         _resultLabel.Text = text;
     }
 
-    private void OnPlayerRankReceived(long rank, long score, float percentile)
+    private void OnPlayerRankReceived(int rank, long score, string percentile)
     {
-        _resultLabel.Text = $"Your rank: #{rank}\nScore: {score}\nTop {percentile:F1}%";
+        _resultLabel.Text = $"Your rank: #{rank}\nScore: {score}\nPercentile: {percentile}";
     }
 
     private void OnRequestFailed(string operation, string error)

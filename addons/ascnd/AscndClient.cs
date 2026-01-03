@@ -43,7 +43,7 @@ public partial class AscndClient : Node
     /// Emitted when a score is successfully submitted.
     /// </summary>
     [Signal]
-    public delegate void ScoreSubmittedEventHandler(string scoreId, long rank, bool isNewBest);
+    public delegate void ScoreSubmittedEventHandler(string scoreId, int rank, bool isNewBest);
 
     /// <summary>
     /// Emitted when leaderboard data is received.
@@ -56,7 +56,7 @@ public partial class AscndClient : Node
     /// Emitted when a player's rank is received.
     /// </summary>
     [Signal]
-    public delegate void PlayerRankReceivedEventHandler(long rank, long score, float percentile);
+    public delegate void PlayerRankReceivedEventHandler(int rank, long score, string percentile);
 
     /// <summary>
     /// Emitted when any API request fails.
@@ -191,7 +191,7 @@ public partial class AscndClient : Node
                     ["rank"] = entry.Rank,
                     ["playerId"] = entry.PlayerId,
                     ["score"] = entry.Score,
-                    ["submittedAt"] = entry.SubmittedAt?.ToDateTime().ToString("o") ?? ""
+                    ["submittedAt"] = entry.SubmittedAt ?? ""
                 };
 
                 if (entry.Bracket != null)
@@ -249,7 +249,7 @@ public partial class AscndClient : Node
             var response = await _client!.GetPlayerRankAsync(request);
 
             CallDeferred(MethodName.EmitSignal, SignalName.PlayerRankReceived,
-                response.Rank, response.Score, (float)response.Percentile);
+                response.Rank ?? 0, response.Score ?? 0, response.Percentile ?? "");
         }
         catch (Exception ex)
         {
