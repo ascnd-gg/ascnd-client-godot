@@ -17,7 +17,7 @@ Official Godot addon for the [Ascnd](https://ascnd.gg) leaderboard API. Submit s
 2. Copy the `addons/ascnd/` folder to your project's `addons/` directory
 3. Add the NuGet package reference to your project's `.csproj`:
    ```xml
-   <PackageReference Include="Ascnd.Client" Version="1.1.0" />
+   <PackageReference Include="Ascnd.Client" Version="1.0.0" />
    ```
 4. Build your project (dotnet build or Godot's Build button)
 5. Enable the plugin in **Project > Project Settings > Plugins**
@@ -80,7 +80,7 @@ public partial class GameManager : Node
 
     private void OnLeaderboardReceived(
         Godot.Collections.Array entries,
-        long totalEntries,
+        int totalEntries,
         bool hasMore)
     {
         foreach (Godot.Collections.Dictionary entry in entries)
@@ -170,10 +170,10 @@ _ascnd.Reinitialize();
 
 Emitted when a score is successfully submitted.
 
-#### LeaderboardReceived(entries: Array, totalEntries: long, hasMore: bool)
+#### LeaderboardReceived(entries: Array, totalEntries: int, hasMore: bool)
 
 Emitted when leaderboard data is received. Each entry in the array is a Dictionary with:
-- `rank` (long)
+- `rank` (int)
 - `playerId` (string)
 - `score` (long)
 - `submittedAt` (string, ISO 8601 format)
@@ -222,10 +222,10 @@ func _on_request_failed(operation: String, error: String):
 
 ## Links
 
-- [Documentation](https://ascnd.gg/docs/sdks/godot)
-- [Ascnd Dashboard](https://dashboard.ascnd.gg)
+- [Ascnd Website](https://ascnd.gg)
+- [Dashboard](https://dashboard.ascnd.gg)
+- [C# SDK Documentation](https://docs.ascnd.gg/sdks/csharp)
 - [GitHub](https://github.com/ascnd-gg/ascnd-client-godot)
-- [C# SDK](https://github.com/ascnd-gg/ascnd-client-csharp)
 
 ## License
 

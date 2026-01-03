@@ -49,7 +49,7 @@ public partial class Main : Control
 
     private void OnLeaderboardReceived(
         Godot.Collections.Array entries,
-        long totalEntries,
+        int totalEntries,
         bool hasMore)
     {
         var text = $"Leaderboard ({totalEntries} total entries):\n\n";

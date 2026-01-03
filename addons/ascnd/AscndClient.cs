@@ -50,7 +50,7 @@ public partial class AscndClient : Node
     /// Each entry is a Dictionary with: rank, playerId, score, submittedAt, bracket (optional)
     /// </summary>
     [Signal]
-    public delegate void LeaderboardReceivedEventHandler(GodotArray entries, long totalEntries, bool hasMore);
+    public delegate void LeaderboardReceivedEventHandler(GodotArray entries, int totalEntries, bool hasMore);
 
     /// <summary>
     /// Emitted when a player's rank is received.
