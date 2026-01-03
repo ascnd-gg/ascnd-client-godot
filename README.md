@@ -79,11 +79,11 @@ public partial class GameManager : Node
     }
 
     private void OnLeaderboardReceived(
-        Godot.Collections.Array<Godot.Collections.Dictionary> entries,
+        Godot.Collections.Array entries,
         long totalEntries,
         bool hasMore)
     {
-        foreach (var entry in entries)
+        foreach (Godot.Collections.Dictionary entry in entries)
         {
             GD.Print($"#{entry["rank"]}: {entry["playerId"]} - {entry["score"]}");
         }

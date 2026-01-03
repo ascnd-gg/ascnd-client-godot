@@ -48,13 +48,13 @@ public partial class Main : Control
     }
 
     private void OnLeaderboardReceived(
-        Godot.Collections.Array<Godot.Collections.Dictionary> entries,
+        Godot.Collections.Array entries,
         long totalEntries,
         bool hasMore)
     {
         var text = $"Leaderboard ({totalEntries} total entries):\n\n";
 
-        foreach (var entry in entries)
+        foreach (Godot.Collections.Dictionary entry in entries)
         {
             text += $"#{entry["rank"]}: {entry["playerId"]} - {entry["score"]}\n";
         }

@@ -12,4 +12,9 @@
     <PackageReference Include="Ascnd.Client" Version="1.0.0" />
   </ItemGroup>
 
+  <!-- Exclude example projects from main build -->
+  <ItemGroup>
+    <Compile Remove="examples/**/*.cs" />
+  </ItemGroup>
+
 </Project>

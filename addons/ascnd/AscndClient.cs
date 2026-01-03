@@ -1,10 +1,13 @@
 using Godot;
 using System;
-using System.Threading.Tasks;
 using Ascnd.Client;
 using Ascnd.Client.Grpc;
 
 namespace Ascnd.Godot;
+
+// Aliases to avoid namespace collision with Ascnd.Godot
+using GodotArray = global::Godot.Collections.Array;
+using GodotDictionary = global::Godot.Collections.Dictionary;
 
 /// <summary>
 /// Godot node wrapper for the Ascnd leaderboard API client.
@@ -39,35 +42,25 @@ public partial class AscndClient : Node
     /// <summary>
     /// Emitted when a score is successfully submitted.
     /// </summary>
-    /// <param name="scoreId">The unique ID of the submitted score</param>
-    /// <param name="rank">The player's new rank on the leaderboard</param>
-    /// <param name="isNewBest">True if this is the player's new personal best</param>
     [Signal]
     public delegate void ScoreSubmittedEventHandler(string scoreId, long rank, bool isNewBest);
 
     /// <summary>
     /// Emitted when leaderboard data is received.
+    /// Each entry is a Dictionary with: rank, playerId, score, submittedAt, bracket (optional)
     /// </summary>
-    /// <param name="entries">Array of dictionaries with rank, playerId, score keys</param>
-    /// <param name="totalEntries">Total number of entries on the leaderboard</param>
-    /// <param name="hasMore">True if there are more entries available</param>
     [Signal]
-    public delegate void LeaderboardReceivedEventHandler(Godot.Collections.Array<Godot.Collections.Dictionary> entries, long totalEntries, bool hasMore);
+    public delegate void LeaderboardReceivedEventHandler(GodotArray entries, long totalEntries, bool hasMore);
 
     /// <summary>
     /// Emitted when a player's rank is received.
     /// </summary>
-    /// <param name="rank">The player's rank (0 if not ranked)</param>
-    /// <param name="score">The player's score</param>
-    /// <param name="percentile">The player's percentile (0-100)</param>
     [Signal]
     public delegate void PlayerRankReceivedEventHandler(long rank, long score, float percentile);
 
     /// <summary>
     /// Emitted when any API request fails.
     /// </summary>
-    /// <param name="operation">The operation that failed (e.g., "SubmitScore")</param>
-    /// <param name="error">Error message describing the failure</param>
     [Signal]
     public delegate void RequestFailedEventHandler(string operation, string error);
 
@@ -190,10 +183,10 @@ public partial class AscndClient : Node
 
             var response = await _client!.GetLeaderboardAsync(request);
 
-            var entries = new Godot.Collections.Array<Godot.Collections.Dictionary>();
+            var entries = new GodotArray();
             foreach (var entry in response.Entries)
             {
-                var dict = new Godot.Collections.Dictionary
+                var dict = new GodotDictionary
                 {
                     ["rank"] = entry.Rank,
                     ["playerId"] = entry.PlayerId,
@@ -203,7 +196,7 @@ public partial class AscndClient : Node
 
                 if (entry.Bracket != null)
                 {
-                    dict["bracket"] = new Godot.Collections.Dictionary
+                    dict["bracket"] = new GodotDictionary
                     {
                         ["id"] = entry.Bracket.Id,
                         ["name"] = entry.Bracket.Name,
