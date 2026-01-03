@@ -249,7 +249,7 @@ public partial class AscndClient : Node
             var response = await _client!.GetPlayerRankAsync(request);
 
             CallDeferred(MethodName.EmitSignal, SignalName.PlayerRankReceived,
-                response.Rank ?? 0, response.Score ?? 0, response.Percentile ?? "");
+                response.Rank, response.Score, response.Percentile ?? "");
         }
         catch (Exception ex)
         {
