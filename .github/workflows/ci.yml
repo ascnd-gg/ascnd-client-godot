@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Setup Godot
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.3.0
+          use-dotnet: true
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build addon
+        run: dotnet build --no-restore
+
+      - name: Build example
+        run: |
+          cd examples/BasicUsage
+          dotnet restore
+          dotnet build --no-restore

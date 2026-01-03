@@ -1,0 +1,21 @@
+# Godot
+.godot/
+*.import
+
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.dll
+*.pdb
+
+# IDE
+.idea/
+.vs/
+*.sln.DotSettings.user
+
+# OS
+.DS_Store
+Thumbs.db
