@@ -1,5 +1,8 @@
 # Ascnd Godot Plugin
 
+> [!WARNING]
+> This project is experimental and under active development. Expect bugs, breaking changes, and incomplete features. Please report issues via the [issue tracker](../../issues).
+
 Official Godot addon for the [Ascnd](https://ascnd.gg) leaderboard API. Submit scores, fetch leaderboards, and track player rankings with Godot-native signals and node lifecycle integration.
 
 ## Features
