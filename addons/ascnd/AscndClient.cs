@@ -50,7 +50,7 @@ public partial class AscndClient : Node
     /// Each entry is a Dictionary with: rank, playerId, score, submittedAt, bracket (optional)
     /// </summary>
     [Signal]
-    public delegate void LeaderboardReceivedEventHandler(GodotArray entries, int totalEntries, bool hasMore);
+    public delegate void LeaderboardReceivedEventHandler(GodotArray entries, int totalEntries, bool hasMore, string nextCursor);
 
     /// <summary>
     /// Emitted when a player's rank is received.
@@ -155,10 +155,11 @@ public partial class AscndClient : Node
     /// </summary>
     /// <param name="leaderboardId">The leaderboard identifier</param>
     /// <param name="limit">Maximum number of entries to fetch (default 10, max 100)</param>
-    /// <param name="offset">Number of entries to skip for pagination</param>
+    /// <param name="cursor">Optional cursor for pagination (from previous response's nextCursor)</param>
     /// <param name="period">Time period: "current", "previous", or ISO timestamp</param>
     /// <param name="viewSlug">Optional view slug for filtered leaderboards</param>
-    public async void GetLeaderboard(string leaderboardId, int limit = 10, int offset = 0, string period = "", string viewSlug = "")
+    /// <param name="aroundRank">Optional rank to center results around (for random access)</param>
+    public async void GetLeaderboard(string leaderboardId, int limit = 10, string cursor = "", string period = "", string viewSlug = "", int aroundRank = 0)
     {
         if (!EnsureClient("GetLeaderboard")) return;
 
@@ -167,9 +168,18 @@ public partial class AscndClient : Node
             var request = new GetLeaderboardRequest
             {
                 LeaderboardId = leaderboardId,
-                Limit = limit,
-                Offset = offset
+                Limit = limit
             };
+
+            if (!string.IsNullOrEmpty(cursor))
+            {
+                request.Cursor = cursor;
+            }
+
+            if (aroundRank > 0)
+            {
+                request.AroundRank = aroundRank;
+            }
 
             if (!string.IsNullOrEmpty(period))
             {
@@ -208,7 +218,7 @@ public partial class AscndClient : Node
             }
 
             CallDeferred(MethodName.EmitSignal, SignalName.LeaderboardReceived,
-                entries, response.TotalEntries, response.HasMore);
+                entries, response.TotalEntries, response.HasMore, response.NextCursor ?? "");
         }
         catch (Exception ex)
         {
