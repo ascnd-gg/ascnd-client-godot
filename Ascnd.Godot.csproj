@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ascnd.Client" Version="1.0.0" />
+    <PackageReference Include="Ascnd.Client" Version="1.1.0" />
   </ItemGroup>
 
   <!-- Exclude example projects from main build -->
